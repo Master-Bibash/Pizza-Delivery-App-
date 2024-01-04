@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Theme/style.dart';
 import 'package:flutter_application_1/routes/myrouters.dart';
+import 'package:flutter_application_1/view/main_screen/Cubit/CursorCubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,12 +19,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Pizza App",
-      theme: appTheme(),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: MyRoutes.generatedRoutes,
-      initialRoute: '/splash',
-    );
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (context) => CarouseCubit(),)
+        ],
+        child: MaterialApp(
+          title: "Pizza App",
+          theme: appTheme(),
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: MyRoutes.generatedRoutes,
+          initialRoute: '/splash',
+        ));
   }
 }
