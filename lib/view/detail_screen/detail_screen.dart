@@ -6,7 +6,6 @@ class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.pizzaItem});
 
   final PizzaItems pizzaItem;
-//my name is bibash
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
