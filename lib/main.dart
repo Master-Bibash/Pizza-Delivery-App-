@@ -25,7 +25,11 @@ class MyApp extends StatelessWidget {
         ],
         child: MaterialApp(
           title: "Pizza App",
-          theme: appTheme(),
+          theme: ThemeData(
+           scaffoldBackgroundColor: Colors.white,
+          primaryColor: Colors.white,
+          
+          ),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MyRoutes.generatedRoutes,
           initialRoute: '/splash',

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class PizzaItems extends StatelessWidget {
   const PizzaItems({
     super.key,
@@ -10,18 +9,19 @@ class PizzaItems extends StatelessWidget {
     required this.rating,
     required this.price,
     required this.star,
+      this.onTap,
   });
   final String img;
   final String name;
   final IconData star;
   final double price;
   final String rating;
-  // final Function()
+  final Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: onTap,
       child: Container(
           // margin: EdgeInsets.symmetric(
           //   horizontal: 20,

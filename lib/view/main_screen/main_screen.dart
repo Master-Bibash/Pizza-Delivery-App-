@@ -4,8 +4,10 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/colors_constant.dart';
+import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
 import 'package:flutter_application_1/view/main_screen/Cubit/CursorCubit.dart';
 import 'package:flutter_application_1/view/main_screen/constant/Lists_pizza.dart';
+import 'package:flutter_application_1/view/main_screen/constant/image_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainScreenPage extends StatefulWidget {
@@ -19,7 +21,6 @@ class _MainScreenPageState extends State<MainScreenPage> {
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final CarouseCubit carouselCubit = CarouseCubit();
 
-  final List<String> items = ["Nepal", "Bhutan", "Pakistan", "China", "Iraq"];
   String? selectedCity;
   int selectedId = 0;
 
@@ -38,23 +39,6 @@ class _MainScreenPageState extends State<MainScreenPage> {
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    List imageList = [
-      {
-        'id': 1,
-        "image_path":
-            'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-      },
-      {
-        'id': 2,
-        "image_path":
-            'https://images.unsplash.com/photo-1490717064594-3bd2c4081693?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-      },
-      {
-        'id': 3,
-        "image_path":
-            'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-      }
-    ];
 
     final CarouselController carouselController = CarouselController();
     return Scaffold(
@@ -164,7 +148,8 @@ class _MainScreenPageState extends State<MainScreenPage> {
                     aspectRatio: 0,
                     autoPlayCurve: Curves.fastOutSlowIn,
                     enableInfiniteScroll: true,
-                    autoPlayAnimationDuration: const Duration(milliseconds: 800),
+                    autoPlayAnimationDuration:
+                        const Duration(milliseconds: 800),
                     viewportFraction: 1,
                   ),
                 ),
@@ -242,7 +227,8 @@ class _MainScreenPageState extends State<MainScreenPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide: const BorderSide(width: 2, color: Colors.black),
+                      borderSide:
+                          const BorderSide(width: 2, color: Colors.black),
                     ),
                     hintStyle: TextStyle(color: Colors.grey.withOpacity(0.9)),
                     hintText: "Find your pizza here..."),
@@ -280,10 +266,20 @@ class _MainScreenPageState extends State<MainScreenPage> {
                   // mainAxisExtent: 1,
                   mainAxisSpacing: 0),
               itemBuilder: (context, index) {
-                return Card(
-                  margin: const EdgeInsets.only(left: 20, bottom: 10),
-                  color: Colors.grey.shade100.withOpacity(0.9),
-                  child: pizza[index],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              DetailScreen(pizzaItem: pizza[index]),
+                        ));
+                  },
+                  child: Card(
+                    margin: const EdgeInsets.only(left: 20, bottom: 10),
+                    color: Colors.grey.shade100.withOpacity(0.9),
+                    child: pizza[index],
+                  ),
                 );
               },
             ),
@@ -321,4 +317,3 @@ class _MainScreenPageState extends State<MainScreenPage> {
     );
   }
 }
-
