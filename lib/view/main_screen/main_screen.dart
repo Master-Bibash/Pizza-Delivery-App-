@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_application_1/utils/colors_constant.dart';
 import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
 import 'package:flutter_application_1/view/main_screen/Cubit/CursorCubit.dart';
@@ -31,6 +32,7 @@ class _MainScreenPageState extends State<MainScreenPage> {
   @override
   void dispose() {
     _indexStreamController.close();
+
     super.dispose();
   }
 
@@ -257,31 +259,37 @@ class _MainScreenPageState extends State<MainScreenPage> {
                 ),
               ),
             ),
-            SliverGrid.builder(
-              itemCount: pizza.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.9,
-                  // crossAxisSpacing: 0.1,
-                  // mainAxisExtent: 1,
-                  mainAxisSpacing: 0),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              DetailScreen(pizzaItem: pizza[index]),
-                        ));
-                  },
-                  child: Card(
-                    margin: const EdgeInsets.only(left: 20, bottom: 10),
-                    color: Colors.grey.shade100.withOpacity(0.9),
-                    child: pizza[index],
-                  ),
-                );
-              },
+            SliverPadding(
+              padding: EdgeInsets.symmetric(horizontal: 5),
+              sliver: SliverGrid.builder(
+                itemCount: pizza.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.9,
+                    crossAxisSpacing: 1.2,
+                    // mainAxisExtent: 0.1,
+                    mainAxisSpacing: 0),
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DetailScreen(pizzaItem: pizza[index]),
+                          ));
+                    },
+                    child: Hero(
+                      tag: pizza[index],
+                      child: Card(
+                        // margin: const EdgeInsets.only(left: 20, bottom: 10),
+                        color: Colors.grey.shade100.withOpacity(0.9),
+                        child: pizza[index],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
             // SliverToBoxAdapter(
             //   child: SizedBox(
