@@ -282,8 +282,10 @@ class _MainScreenPageState extends State<MainScreenPage> {
                     child: Hero(
                       tag: pizza[index],
                       child: Card(
+                        elevation: 1,
                         // margin: const EdgeInsets.only(left: 20, bottom: 10),
-                        color: Colors.grey.shade100.withOpacity(0.9),
+                        color: ColorConstant.primary.withOpacity(0.9),
+                        // color:Colors.white,
                         child: pizza[index],
                       ),
                     ),

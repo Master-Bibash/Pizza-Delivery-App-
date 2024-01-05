@@ -1,6 +1,8 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/view/cart_screen/cart_screen.dart';
 import 'package:flutter_application_1/view/main_screen/constant/Pizza_items.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
@@ -35,6 +37,9 @@ class _DetailScreenState extends State<DetailScreen>
     super.dispose();
   }
 
+  int count = 0;
+  int price = 0;
+  // widget.pizzaItem.price
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -60,11 +65,11 @@ class _DetailScreenState extends State<DetailScreen>
                 ),
                 actions: [
                   Padding(
-                    padding: const EdgeInsets.only(right: 8.0),
+                    padding: const EdgeInsets.only(right: 8),
                     child: Icon(
                       Icons.favorite_rounded,
                       color: Colors.red,
-                      size: 25,
+                      size: 26,
                     ),
                   ),
                 ],
@@ -185,14 +190,14 @@ class _DetailScreenState extends State<DetailScreen>
                 padding: EdgeInsets.symmetric(horizontal: 22),
                 sliver: SliverToBoxAdapter(
                   child: Column(
-                     mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                           RichText(
+                          RichText(
                               textAlign: TextAlign.center,
                               //  strutStyle: StrutStyle(),
                               text: TextSpan(children: [
@@ -204,14 +209,14 @@ class _DetailScreenState extends State<DetailScreen>
                                       fontWeight: FontWeight.bold),
                                 ),
                                 TextSpan(
-                                  text: widget.pizzaItem.price.toString(),
+                                  text: '${price}',
                                   style: GoogleFonts.tajawal(
                                       color: Colors.black,
                                       fontSize: 55,
                                       fontWeight: FontWeight.bold),
                                 )
                               ])),
-                                  Container(
+                          Container(
                             width: width * 0.28,
                             height: height * 0.059,
                             decoration: BoxDecoration(
@@ -224,24 +229,42 @@ class _DetailScreenState extends State<DetailScreen>
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                SizedBox(
-                                  width: width * 0.01,
-                                ),
+                                // SizedBox(
+                                //   width: width * 0.01,
+                                // ),
                                 IconButton(
                                   icon: Icon(
                                     Icons.remove,
                                     size: 30,
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {
+                                      count > 0 ? count-- : count;
+                                      price > 0
+                                          ? price = price -
+                                              widget.pizzaItem.price.toInt()
+                                          : price;
+                                    });
+                                  },
                                 ),
-                                Text("1",
+                                Text("${count}",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                        fontSize: 25,
+                                        fontSize: 20,
                                         fontWeight: FontWeight.w700)),
-                                Icon(
-                                  Icons.add,
-                                  size: 30,
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.add,
+                                    size: 30,
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      print(price);
+                                      count++;
+                                      price = price +
+                                          widget.pizzaItem.price.toInt();
+                                    });
+                                  },
                                 ),
                                 SizedBox(
                                   width: width * 0.01,
@@ -251,14 +274,14 @@ class _DetailScreenState extends State<DetailScreen>
                           ),
                         ],
                       ),
-                         Text(
+                      Text(
                         "About Pizza",
                         style: GoogleFonts.tajawal(
                             color: Colors.black,
                             fontSize: 22,
                             fontWeight: FontWeight.bold),
                       ),
-                               Text(
+                      Text(
                         "Our next Zucchini Week recipe is all about the Italian spin: Zucchini Pizza Boats. This quick and easy dinner recipe is kid friendly (hello, PIZZA), adult approved (also PIZZA! plus a built-in serving of veggies and skinny topping options), and the kind of satisfying weeknight meal we all need more of in our lives,Our next Zucchini Week recipe is all about the Italian spin: Zucchini Pizza Boats. This quick and easy dinner recipe is kid friendly (hello, PIZZA), adult approved (also PIZZA! plus a built-in serving.",
                         // maxLines: 9,
                         style: GoogleFonts.dosis(
@@ -266,10 +289,11 @@ class _DetailScreenState extends State<DetailScreen>
                             fontSize: 18,
                             fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: height*0.2,)
-                      
-
-                  ],),
+                      SizedBox(
+                        height: height * 0.3,
+                      )
+                    ],
+                  ),
                 ),
               )
             ],
@@ -277,15 +301,13 @@ class _DetailScreenState extends State<DetailScreen>
           Positioned(
               // top: 0,
               bottom: 35,
-              // right: -20,
-
+              right: 0.89,
+              left: -5,
               child: Container(
-                 margin: EdgeInsets.all( 4),
-
+                margin: EdgeInsets.all(26),
                 clipBehavior: Clip.antiAlias,
                 width: width,
-                                              height: height / 12,
-
+                height: height / 12,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(35),
                     color: Color(0xFF191A1D),
@@ -295,18 +317,39 @@ class _DetailScreenState extends State<DetailScreen>
                           color: Colors.white,
                           spreadRadius: 70)
                     ]),
-                child: ElevatedButton(
-                    style:
-                        ElevatedButton.styleFrom(backgroundColor: Colors.black),
-                    clipBehavior: Clip.antiAlias,
-                    onPressed: () {},
-                    child: Text(
-                      "Add To Cart",
-                      style: TextStyle(color: Colors.white),
-                    )),
-              )) 
+                child: ButtonWidget(text: "Add To Cart"),
+              )
+              )
         ],
       ),
     );
+  }
+}
+
+class ButtonWidget extends StatelessWidget {
+  const ButtonWidget({
+    super.key, required this.text,
+  });
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            alignment: Alignment.center, backgroundColor: Colors.black),
+        clipBehavior: Clip.antiAlias,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CartScreen(),
+              ));
+        },
+        child: Text(
+          text,
+          textAlign: TextAlign.end,
+          style: GoogleFonts.tajawal(
+              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+        ));
   }
 }

@@ -33,4 +33,36 @@ List<PizzaItems> pizza = [
     rating: "3",
     star: Icons.star_half_outlined,
   ),
+    const PizzaItems(
+    img:
+        'https://i0.wp.com/bestmargheritapizza.com/wp-content/uploads/2016/10/margherita-2.png?fit=2746%2C2767&ssl=1',
+    name: "Margherita Italian",
+    price: 60,
+    rating: "3",
+    star: Icons.star_half_outlined,
+  ),
+    const PizzaItems(
+    img:
+        'https://i0.wp.com/bestmargheritapizza.com/wp-content/uploads/2016/10/margherita-2.png?fit=2746%2C2767&ssl=1',
+    name: "Margherita Italian",
+    price: 60,
+    rating: "3",
+    star: Icons.star_half_outlined,
+  ),
+    const PizzaItems(
+    img:
+        'https://i0.wp.com/bestmargheritapizza.com/wp-content/uploads/2016/10/margherita-2.png?fit=2746%2C2767&ssl=1',
+    name: "Margherita Italian",
+    price: 60,
+    rating: "3",
+    star: Icons.star_half_outlined,
+  ),
+  const PizzaItems(
+    img:
+        'https://i0.wp.com/bestmargheritapizza.com/wp-content/uploads/2016/10/margherita-2.png?fit=2746%2C2767&ssl=1',
+    name: "Margherita Italian",
+    price: 60,
+    rating: "3",
+    star: Icons.star_half_outlined,
+  ),
 ];
