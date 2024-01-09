@@ -270,7 +270,9 @@ class _MainScreenPageState extends State<MainScreenPage> {
                     // mainAxisExtent: 0.1,
                     mainAxisSpacing: 0),
                 itemBuilder: (context, index) {
-                  return GestureDetector(
+                  return 
+                  
+                   GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,
@@ -281,13 +283,7 @@ class _MainScreenPageState extends State<MainScreenPage> {
                     },
                     child: Hero(
                       tag: pizza[index],
-                      child: Card(
-                        elevation: 1,
-                        // margin: const EdgeInsets.only(left: 20, bottom: 10),
-                        color: ColorConstant.primary.withOpacity(0.9),
-                        // color:Colors.white,
-                        child: pizza[index],
-                      ),
+                      child: pizza[index],
                     ),
                   );
                 },

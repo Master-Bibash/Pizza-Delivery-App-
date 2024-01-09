@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/Theme/style.dart';
 import 'package:flutter_application_1/routes/myrouters.dart';
+import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
 import 'package:flutter_application_1/view/main_screen/Cubit/CursorCubit.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
@@ -11,7 +12,6 @@ void main() {
       .then((_) {
     runApp(MyApp());
   });
-  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -21,7 +21,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
-          BlocProvider(create: (context) => CarouseCubit(),)
+         BlocProvider(create: (context) => CarouseCubit(),),
+         BlocProvider(create: (context) => PizzaItemCubit(),),
+       
+          
         ],
         child: MaterialApp(
           title: "Pizza App",

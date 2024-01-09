@@ -1,9 +1,9 @@
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
+import 'package:flutter_application_1/view/Cubit/global_list/global.dart';
 import 'package:flutter_application_1/view/cart_screen/cart_screen.dart';
 import 'package:flutter_application_1/view/main_screen/constant/Pizza_items.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -11,6 +11,7 @@ class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.pizzaItem});
 
   final PizzaItems pizzaItem;
+
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
@@ -40,8 +41,10 @@ class _DetailScreenState extends State<DetailScreen>
   int count = 0;
   int price = 0;
   // widget.pizzaItem.price
+
   @override
   Widget build(BuildContext context) {
+    ListofPizza p = ListofPizza();
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -317,9 +320,28 @@ class _DetailScreenState extends State<DetailScreen>
                           color: Colors.white,
                           spreadRadius: 70)
                     ]),
-                child: ButtonWidget(text: "Add To Cart"),
-              )
-              )
+                child: ButtonWidget(
+                  text: "Add To Cart",
+                  ontap: () {
+                    // context.read<PizzaCubit>().addToCart(widget.pizzaItem);
+
+                    // await Future.delayed(Duration(seconds: 5));
+                    // print(state.selectedPizzas[1].name);
+                    // Provider
+                    // p.itemsCart.add(pizzaOnDetails(
+                    //     Totalprice: price,
+                    //     count: count,
+                    //     img: widget.pizzaItem.img));
+                    // context.read<CartCubit>().addToCart(;
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CartScreen(),
+                        ));
+                  },
+                ),
+              ))
         ],
       ),
     );
@@ -328,9 +350,12 @@ class _DetailScreenState extends State<DetailScreen>
 
 class ButtonWidget extends StatelessWidget {
   const ButtonWidget({
-    super.key, required this.text,
+    super.key,
+    required this.text,
+    required this.ontap,
   });
   final String text;
+  final Function() ontap;
 
   @override
   Widget build(BuildContext context) {
@@ -338,13 +363,7 @@ class ButtonWidget extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             alignment: Alignment.center, backgroundColor: Colors.black),
         clipBehavior: Clip.antiAlias,
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => CartScreen(),
-              ));
-        },
+        onPressed: ontap,
         child: Text(
           text,
           textAlign: TextAlign.end,
