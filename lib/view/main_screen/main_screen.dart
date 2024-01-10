@@ -4,11 +4,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/utils/colors_constant.dart';
+import 'package:flutter_application_1/view/utils/colors_constant.dart';
 import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
 import 'package:flutter_application_1/view/main_screen/Cubit/CursorCubit.dart';
 import 'package:flutter_application_1/view/main_screen/constant/Lists_pizza.dart';
 import 'package:flutter_application_1/view/main_screen/constant/image_list.dart';
+import 'package:flutter_application_1/view/view_all_screen/view_all_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MainScreenPage extends StatefulWidget {
@@ -237,7 +238,7 @@ class _MainScreenPageState extends State<MainScreenPage> {
               ),
             )),
             SliverPadding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
               sliver: SliverToBoxAdapter(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -248,12 +249,21 @@ class _MainScreenPageState extends State<MainScreenPage> {
                           color: Colors.black,
                           fontWeight: FontWeight.w700,
                         )),
-                    Text(
-                      "View All",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleMedium!
-                          .copyWith(color: Colors.black.withOpacity(0.4)),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewScreen(),
+                            ));
+                      },
+                      child: Text(
+                        "View All",
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .copyWith(color: Colors.black.withOpacity(0.4)),
+                      ),
                     )
                   ],
                 ),
@@ -262,17 +272,15 @@ class _MainScreenPageState extends State<MainScreenPage> {
             SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: 5),
               sliver: SliverGrid.builder(
-                itemCount: pizza.length,
+                itemCount: 4,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
-                    childAspectRatio: 0.9,
-                    crossAxisSpacing: 1.2,
+                    childAspectRatio: 0.8,
+                    crossAxisSpacing: 0.5,
                     // mainAxisExtent: 0.1,
                     mainAxisSpacing: 0),
                 itemBuilder: (context, index) {
-                  return 
-                  
-                   GestureDetector(
+                  return GestureDetector(
                     onTap: () {
                       Navigator.push(
                           context,

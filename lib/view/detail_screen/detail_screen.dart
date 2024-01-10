@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
-import 'package:flutter_application_1/view/Cubit/global_list/global.dart';
 import 'package:flutter_application_1/view/cart_screen/cart_screen.dart';
 import 'package:flutter_application_1/view/main_screen/constant/Pizza_items.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,6 +17,8 @@ class DetailScreen extends StatefulWidget {
 
 class _DetailScreenState extends State<DetailScreen>
     with SingleTickerProviderStateMixin {
+  int count = 0;
+  int price = 0;
   late AnimationController _controller;
 
   late Animation<double> _animation;
@@ -38,13 +39,11 @@ class _DetailScreenState extends State<DetailScreen>
     super.dispose();
   }
 
-  int count = 0;
-  int price = 0;
   // widget.pizzaItem.price
-
+  List<useraddedpizza> userpizza = [];
   @override
   Widget build(BuildContext context) {
-    ListofPizza p = ListofPizza();
+    // List<PizzaItems> pizzalist = context.watch<CartCubit>().state;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -241,13 +240,19 @@ class _DetailScreenState extends State<DetailScreen>
                                     size: 30,
                                   ),
                                   onPressed: () {
-                                    setState(() {
-                                      count > 0 ? count-- : count;
-                                      price > 0
-                                          ? price = price -
-                                              widget.pizzaItem.price.toInt()
-                                          : price;
-                                    });
+                                    if (count > 0) {
+                                      setState(() {
+                                        print(price);
+                                        count--;
+                                        price = price -
+                                            widget.pizzaItem.price.toInt();
+                                      });
+                                    } else {
+                                      count;
+                                      price;
+                                    }
+
+                                    // context.read<CartCubit>().decrementItem(widget.pizzaItem.name,price);
                                   },
                                 ),
                                 Text("${count}",
@@ -323,22 +328,21 @@ class _DetailScreenState extends State<DetailScreen>
                 child: ButtonWidget(
                   text: "Add To Cart",
                   ontap: () {
-                    // context.read<PizzaCubit>().addToCart(widget.pizzaItem);
+                    useraddedpizza pizza = useraddedpizza(
+                      title: widget.pizzaItem.name,
+                      image: widget.pizzaItem.img,
+                      count: count,
+                      price: price,
+                    );
 
-                    // await Future.delayed(Duration(seconds: 5));
-                    // print(state.selectedPizzas[1].name);
-                    // Provider
-                    // p.itemsCart.add(pizzaOnDetails(
-                    //     Totalprice: price,
-                    //     count: count,
-                    //     img: widget.pizzaItem.img));
-                    // context.read<CartCubit>().addToCart(;
-
+                    context.read<CartCubit>().addToCart(pizza);
                     Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CartScreen(),
-                        ));
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => CartScreen(
+                            oldprice: widget.pizzaItem.price.toInt()),
+                      ),
+                    );
                   },
                 ),
               ))
@@ -370,5 +374,25 @@ class ButtonWidget extends StatelessWidget {
           style: GoogleFonts.tajawal(
               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
         ));
+  }
+}
+
+class useraddedpizza {
+  String title;
+  String image;
+  int count;
+  int price;
+  useraddedpizza(
+      {required this.image,
+      required this.count,
+      required this.price,
+      required this.title});
+  //getter methods
+  int getCount() {
+    return count;
+  }
+
+  int getPrice() {
+    return price;
   }
 }

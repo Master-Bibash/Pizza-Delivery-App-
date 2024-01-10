@@ -1,53 +1,27 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/utils/colors_constant.dart';
+import 'package:flutter_application_1/view/utils/colors_constant.dart';
 import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
-import 'package:flutter_application_1/view/Cubit/global_list/global.dart';
 import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
-import 'package:flutter_application_1/view/main_screen/constant/Pizza_items.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class CartScreen extends StatelessWidget {
+class CartScreen extends StatefulWidget {
   CartScreen({
     super.key,
+    required this.oldprice,
   });
+  final int oldprice;
 
   @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
   Widget build(BuildContext context) {
-    List<PizzaItems> pizzalist = context.watch<PizzaItemCubit>().state;
+    List<useraddedpizza> pizzalist = context.watch<CartCubit>().state;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
-    // List<CartItems> p = [
-    //   CartItems(
-    //       width: width,
-    //       height: height,
-    //       text: "Cheese Pizza",
-    //       price: 50,
-    //       count: 1,
-    //       img: "https://hotpake.ca/image/menus/6.png"),
-    //   CartItems(
-    //       width: width,
-    //       height: height,
-    //       text: "Cheese Pizza",
-    //       price: 50,
-    //       count: 1,
-    //       img: "https://hotpake.ca/image/menus/6.png"),
-    //   CartItems(
-    //       width: width,
-    //       height: height,
-    //       text: "Cheese Pizza",
-    //       price: 50,
-    //       count: 1,
-    //       img: "https://hotpake.ca/image/menus/6.png"),
-    //   CartItems(
-    //       width: width,
-    //       height: height,
-    //       text: "Cheese Pizza",
-    //       price: 50,
-    //       count: 1,
-    //       img: "https://hotpake.ca/image/menus/6.png"),
-    // ];
-    ListofPizza lp = new ListofPizza();
 
     return Scaffold(
       backgroundColor: ColorConstant.primary,
@@ -84,16 +58,29 @@ class CartScreen extends StatelessWidget {
               child: Container(
             margin: EdgeInsets.all(6),
             height: height * 0.52,
-            child: ListView.builder(
-              itemCount: pizzalist.length,
-              itemBuilder: (context, index) {
-                // print(lp.itemsCart.length);
-                return CartItems(
-                    width: width,
-                    height: height,
-                    text: pizzalist[index].name,
-                    price: pizzalist[index].price.toInt(),
-                    img: pizzalist[index].img);
+            child: BlocBuilder<CartCubit, List<useraddedpizza>>(
+              builder: (context, state) {
+                return ListView.builder(
+                  itemCount: state.length,
+                  itemBuilder: (context, index) {
+                    // print(lp.itemsCart.length);
+                    return CartItems(
+                        count: state[index].count,
+                        width: width,
+                        oldPrice: widget.oldprice,
+                        height: height,
+                        text: state[index].title,
+                        price: state[index].price,
+                        img: state[index].image);
+
+                    //  CartItem(
+                    //     width: width,
+                    //     height: height,
+                    //     text: pizzalist[index].name,
+                    //     price: pizzalist[index].price.toInt(),
+                    //     img: pizzalist[index].img);
+                  },
+                );
               },
             ),
           )),
@@ -114,11 +101,11 @@ class CartScreen extends StatelessWidget {
                     height: height * 0.02,
                   ),
                   //cart item middle part
-                  CartItemMiddlePart(title: "Item", text: "4"),
-                  CartItemMiddlePart(title: "Price", doller: "\$", text: "240"),
+                  CartItemMiddlePart(title: "Item", order: context.read<CartCubit>().getcartItem().length),
+                  CartItemMiddlePart(title: "Price", doller: "\$", order: context.read<CartCubit>().calculateTotalPrice(),),
 
                   CartItemMiddlePart(
-                      title: "Delivery", doller: "\$", text: "4"),
+                      title: "Delivery", doller: "\$", order: 5),
                   Divider(
                     color: Color.fromARGB(255, 230, 227, 227),
                   ),
@@ -130,7 +117,7 @@ class CartScreen extends StatelessWidget {
                       color: Colors.black,
                       doller: "\$",
                       Fsize: 34,
-                      text: "244"),
+                      order: context.read<CartCubit>().getTotal()),
                   SizedBox(
                     height: 10,
                   ),
@@ -151,7 +138,10 @@ class CartScreen extends StatelessWidget {
                     child: ButtonWidget(
                       text: "Add To Cart",
                       ontap: () {
-                        print(lp.itemsCart.length);
+                        // print();
+                        // print(pizzalist[0].count);
+
+                        // print(lp.itemsCart.length);
                         // print("dpme");
                       },
                     ),
@@ -168,10 +158,12 @@ class CartScreen extends StatelessWidget {
 
   Row CartItemMiddlePart({
     required String title,
-    required String text,
+    required int order,
+  
     String? doller,
     Color? color,
     double? Fsize,
+     
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,7 +176,6 @@ class CartScreen extends StatelessWidget {
               fontWeight: FontWeight.w800,
               fontSize: 24),
         ),
-
         RichText(
             textAlign: TextAlign.center,
             //  strutStyle: StrutStyle(),
@@ -197,29 +188,19 @@ class CartScreen extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               ),
               TextSpan(
-                text: text,
+                text: "${order}",
                 style: GoogleFonts.tajawal(
                     color: Colors.black,
                     fontSize: Fsize ?? 27,
                     fontWeight: FontWeight.bold),
               )
             ])),
-        //    Text(text,
-        //  //  Color(0xFF222020);
-        //        style: GoogleFonts.tajawal(
-        //   color: Color(0xFF222020),
-        //   fontWeight: FontWeight.w800,
-        //   fontSize: 24),
-
-        //   )
-
-        // Color(0xFF848484);)
       ],
     );
   }
 }
 
-List<PizzaItems> pizza = [];
+// List<PizzaItems> pizza = [];
 
 class CartItems extends StatefulWidget {
   CartItems({
@@ -230,6 +211,7 @@ class CartItems extends StatefulWidget {
     required this.price,
     this.count,
     required this.img,
+    required this.oldPrice,
   });
 
   final double width;
@@ -238,14 +220,17 @@ class CartItems extends StatefulWidget {
   final int price;
   int? count = 0;
   final String img;
+  final int oldPrice;
 
   @override
   State<CartItems> createState() => _CartItemsState();
 }
 
 class _CartItemsState extends State<CartItems> {
+  int get totalItemPrice => widget.price * (widget.count ?? 0);
   @override
   Widget build(BuildContext context) {
+    // final double real = widget.price / widget.count!.toDouble();
     return Container(
       margin: EdgeInsets.only(bottom: 20),
       width: widget.width,
@@ -307,12 +292,14 @@ class _CartItemsState extends State<CartItems> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.all(2),
                             onPressed: () {
-                              setState(() {
-                                widget.count=widget.count?? 1 +1;
-                              });
+                              // print("first price is $totalItemPrice");
+                              if (widget.count != 0) {
+                                context.read<CartCubit>().decrementItem(
+                                    widget.text, widget.oldPrice);
+                              }
                             },
                             icon: Icon(
-                              Icons.add,
+                              Icons.remove,
                               size: 15,
                             ),
                           )),
@@ -320,7 +307,7 @@ class _CartItemsState extends State<CartItems> {
                         width: widget.width * 0.020,
                       ),
                       Text(
-                        "${widget.count?? 0 }",
+                        "${context.select((CartCubit cubit) => cubit.state.firstWhere((item) => item.title == widget.text).count)}",
                         style: GoogleFonts.mochiyPopOne(
                           fontSize: 13,
                         ),
@@ -342,14 +329,14 @@ class _CartItemsState extends State<CartItems> {
                             alignment: Alignment.center,
                             padding: EdgeInsets.all(2),
                             onPressed: () {
-                              widget.count! > 0
-                                  ? setState(() {
-                                      widget.count=widget.count?? 0-1;
-                                    })
-                                  : widget.count?? 0;
+                              context.read<CartCubit>().incrementItem(
+                                  widget.text,
+                                  widget.oldPrice,
+                                  widget.count!.toInt(),
+                                  widget.price);
                             },
                             icon: Icon(
-                              Icons.remove,
+                              Icons.add,
                               size: 15,
                             ),
                           )),

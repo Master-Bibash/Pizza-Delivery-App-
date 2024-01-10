@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_application_1/utils/colors_constant.dart';
+import 'package:flutter_application_1/view/utils/colors_constant.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {

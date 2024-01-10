@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
         providers: [
          BlocProvider(create: (context) => CarouseCubit(),),
-         BlocProvider(create: (context) => PizzaItemCubit(),),
+         BlocProvider(create: (context) => CartCubit(),),
        
           
         ],
