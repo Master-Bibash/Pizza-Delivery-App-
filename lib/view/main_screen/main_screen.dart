@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/view/main_screen/Components/drawer_widget.dart';
 import 'package:flutter_application_1/view/utils/colors_constant.dart';
 import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
 import 'package:flutter_application_1/view/main_screen/Cubit/CursorCubit.dart';
@@ -45,7 +47,7 @@ class _MainScreenPageState extends State<MainScreenPage> {
 
     final CarouselController carouselController = CarouselController();
     return Scaffold(
-      backgroundColor: ColorConstant.primary,
+      backgroundColor: Color(0xFF272D3B),
       body: SafeArea(
         child: CustomScrollView(
           scrollDirection: Axis.vertical,
@@ -53,11 +55,13 @@ class _MainScreenPageState extends State<MainScreenPage> {
           shrinkWrap: true,
           slivers: [
             SliverAppBar(
+              backgroundColor: Color(0xFF272D3B),
               actions: [
                 IconButton(
                     onPressed: () {},
-                    icon: const Icon(
+                    icon:  Icon(
                       Icons.notifications_none_rounded,
+                      color: Theme.of(context).primaryColor,
                       size: 25,
                     ))
               ],
@@ -66,7 +70,7 @@ class _MainScreenPageState extends State<MainScreenPage> {
               expandedHeight: 50,
               leading: Builder(builder: (BuildContext ctx) {
                 return IconButton(
-                  icon: const Icon(Icons.menu),
+                  icon:  Icon(Icons.menu,color: Theme.of(ctx).primaryColor,),
                   onPressed: () {
                     Scaffold.of(ctx).openDrawer();
                   },
@@ -89,7 +93,7 @@ class _MainScreenPageState extends State<MainScreenPage> {
                       hint: Text(
                         "Beksi",
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                            color: Colors.black,
+                            color: Theme.of(context).primaryColor,
                             fontSize: 14,
                             fontWeight: FontWeight.w600),
                       ),
@@ -99,12 +103,12 @@ class _MainScreenPageState extends State<MainScreenPage> {
                           .toList(),
                       value: selectedCity,
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          color: Colors.black,
+                          color: Theme.of(context).primaryColor,
                           fontSize: 14,
                           fontWeight: FontWeight.w600),
                       elevation: 0,
                       icon: Icon(Icons.keyboard_arrow_down_rounded,
-                          color: Colors.black,
+                          color: Theme.of(context).primaryColor,
                           textDirection: TextDirection.values.first),
                       iconSize: 20,
                       onChanged: (value) {
@@ -188,8 +192,9 @@ class _MainScreenPageState extends State<MainScreenPage> {
               width: width,
               // height: 100,
               child: TextField(
+
                 style: const TextStyle(
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
                 onSubmitted: (String value) {
                   setState(() {
@@ -218,8 +223,8 @@ class _MainScreenPageState extends State<MainScreenPage> {
                       child: Icon(Icons.search_sharp,
                           size: 30,
                           color: _isFocused
-                              ? Colors.black
-                              : Colors.grey.withOpacity(0.9)),
+                              ? Color(0xFF9299A9)
+                              : Color(0xFF9299A9)),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
@@ -230,8 +235,8 @@ class _MainScreenPageState extends State<MainScreenPage> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(20),
-                      borderSide:
-                          const BorderSide(width: 2, color: Colors.black),
+                      borderSide: BorderSide(
+                          width: 2, color: Colors.grey.withOpacity(0.9)),
                     ),
                     hintStyle: TextStyle(color: Colors.grey.withOpacity(0.9)),
                     hintText: "Find your pizza here..."),
@@ -246,9 +251,10 @@ class _MainScreenPageState extends State<MainScreenPage> {
                     Text("Popular",
                         style: GoogleFonts.openSans(
                           fontSize: 22,
-                          color: Colors.black,
+                          color: Theme.of(context).primaryColor,
                           fontWeight: FontWeight.w700,
-                        )),
+                        )
+                        ),
                     GestureDetector(
                       onTap: () {
                         Navigator.push(
@@ -262,41 +268,49 @@ class _MainScreenPageState extends State<MainScreenPage> {
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!
-                            .copyWith(color: Colors.black.withOpacity(0.4)),
+                            .copyWith(color: Theme.of(context).primaryColor,
                       ),
-                    )
+                    ))
                   ],
                 ),
               ),
             ),
+         
             SliverPadding(
-              padding: EdgeInsets.symmetric(horizontal: 5),
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+
               sliver: SliverGrid.builder(
-                itemCount: 4,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.8,
-                    crossAxisSpacing: 0.5,
-                    // mainAxisExtent: 0.1,
-                    mainAxisSpacing: 0),
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                DetailScreen(pizzaItem: pizza[index]),
-                          ));
-                    },
-                    child: Hero(
-                      tag: pizza[index],
-                      child: pizza[index],
-                    ),
-                  );
-                },
-              ),
+              
+              
+                  itemCount: 4,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.8,
+                      crossAxisSpacing: 0.0,
+              
+              
+                      // mainAxisExtent: 0.2,
+                      mainAxisSpacing: 0
+                      ),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  DetailScreen(pizzaItem: pizza[index]),
+                            ));
+                      },
+                      child: Hero(
+                        tag: pizza[index],
+                        child: pizza[index],
+                      ),
+                    );
+                  },
+                ),
             ),
+            
             // SliverToBoxAdapter(
             //   child: SizedBox(
             //     height: 20,
@@ -305,29 +319,52 @@ class _MainScreenPageState extends State<MainScreenPage> {
           ],
         ),
       ),
+    
       drawer: Drawer(
-          // backgroundColor: Colors.blue,
+
+          backgroundColor:  Theme.of(context).primaryColor,
           child: SafeArea(
-              child: ListView(
+              child: Column(
         children: [
-          const UserAccountsDrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-
-            // margin: EdgeInsets.only(bottom: 10),
-
-            accountName: Text("Bibash Mishra"),
-            accountEmail: Text("bibash@gmail.com"),
+           UserAccountsDrawerHeader(
+            decoration: BoxDecoration(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                ),
+            accountName: Text("Bibash Mishra",style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  ),
+            accountEmail: Text("bibash@gmail.com",
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
             currentAccountPictureSize: Size(80, 80),
-
             currentAccountPicture: CircleAvatar(
               // radius: 90,
 
               backgroundImage: NetworkImage(
                   "https://upload.wikimedia.org/wikipedia/commons/2/2f/Alesso_profile.png"),
             ),
-          )
+          ),
+          DrawerWidget(icon: Icons.home,text: "Home",),
+            DrawerWidget(
+            icon: Icons.settings,
+            text: "Settings",
+          ),
+            DrawerWidget(
+            icon: Icons.person,
+            text: "Profile",
+          ),
+          Spacer(flex: 5,),
+            DrawerWidget(
+            icon: Icons.logout,
+            text: "Logout",
+          ),
+          Spacer(flex: 1,),
         ],
       ))),
     );
   }
 }
+

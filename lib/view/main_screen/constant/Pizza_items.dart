@@ -25,25 +25,28 @@ class PizzaItems extends StatelessWidget {
   Widget build(BuildContext context) {
     // Define a common text style using Google Fonts
     final commonTextStyle = GoogleFonts.lato(
-      color: Colors.black.withOpacity(1),
+      color: Color(0xFFCFD6E6),
       fontWeight: FontWeight.bold,
     );
 
     return Container(
-      // margin: EdgeInsets.symmetric(horizontal: 7),
-      padding: EdgeInsets.all(10),
+      // height: 200,
+      margin: EdgeInsets.only( left: 6,right: 6,bottom: 10),
+      // padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
+      color: Color(0xFF485367),
+      borderRadius: BorderRadius.circular(20)
           // Add your desired decoration properties here
           ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // Display the pizza image
           Image.network(
             img,
             // width: MediaQuery.of(context).size.width / 3.4,
-            height: 150,
+            height: 120,
             fit: BoxFit.cover,
           ),
           SizedBox(height: 10),
@@ -56,11 +59,12 @@ class PizzaItems extends StatelessWidget {
           // Display the price and star rating
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Display the price
               RichText(
                 text: TextSpan(children: [
+                  WidgetSpan(child: SizedBox(width: 20,)),
                   TextSpan(
                     text: "\$",
                     style: commonTextStyle.copyWith(letterSpacing: 3),
@@ -69,6 +73,11 @@ class PizzaItems extends StatelessWidget {
                     text: "$price",
                     style: commonTextStyle.copyWith(fontSize: 24),
                   ),
+                                    WidgetSpan(
+                      child: SizedBox(
+                    width: 20,
+                  )),
+
                 ]),
               ),
               // Display the star rating
@@ -88,11 +97,15 @@ class PizzaItems extends StatelessWidget {
                           fontSize: 17,
                         ),
                   ),
-                  SizedBox(width: 10),
+                  SizedBox(width: 20),
                 ],
               ),
             ],
+            
           ),
+          SizedBox(
+            height: 3,
+          )
         ],
       ),
     );

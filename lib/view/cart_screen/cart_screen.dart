@@ -1,9 +1,16 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/state_management/user_added_pizza_model.dart';
+import 'package:flutter_application_1/view/cart_screen/components/add_to_cart.dart';
+import 'package:flutter_application_1/view/detail_screen/Components/Button_Widgets.dart';
+import 'package:flutter_application_1/view/main_screen/main_screen.dart';
 import 'package:flutter_application_1/view/utils/colors_constant.dart';
 import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
 import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class CartScreen extends StatefulWidget {
   CartScreen({
@@ -19,15 +26,16 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    List<useraddedpizza> pizzalist = context.watch<CartCubit>().state;
+    // List<useraddedpizza> pizzalist = context.watch<CartCubit>().state;
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: ColorConstant.primary,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
             pinned: false,
 
             // backgroundColor: Color(0xFFF4F5F0),
@@ -41,12 +49,16 @@ class _CartScreenState extends State<CartScreen> {
             title: Text(
               "Order Details",
               style: GoogleFonts.tajawal(
-                  fontWeight: FontWeight.w800, fontSize: 24),
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.w800,
+                  fontSize: 24),
             ),
             actions: [
               Padding(
                 padding: const EdgeInsets.only(right: 8),
                 child: Icon(
+                  color: Theme.of(context).primaryColor,
+
                   Icons.more_horiz,
                   // color: Colors.red,
                   size: 26,
@@ -64,6 +76,8 @@ class _CartScreenState extends State<CartScreen> {
                   itemCount: state.length,
                   itemBuilder: (context, index) {
                     // print(lp.itemsCart.length);
+                    //  print(  "oldpp count is ${state[index].count}"); //present count
+                    //  print("price of now pizza is ${state[index].price}");  //present price
                     return CartItems(
                         count: state[index].count,
                         width: width,
@@ -101,11 +115,16 @@ class _CartScreenState extends State<CartScreen> {
                     height: height * 0.02,
                   ),
                   //cart item middle part
-                  CartItemMiddlePart(title: "Item", order: context.read<CartCubit>().getcartItem().length),
-                  CartItemMiddlePart(title: "Price", doller: "\$", order: context.read<CartCubit>().calculateTotalPrice(),),
-
                   CartItemMiddlePart(
-                      title: "Delivery", doller: "\$", order: 5),
+                      title: "Item",
+                      order: context.read<CartCubit>().getcartItem().length),
+                  CartItemMiddlePart(
+                    title: "Price",
+                    doller: "\$",
+                    order: context.watch<CartCubit>().calculateTotalPrice(),
+                  ),
+
+                  CartItemMiddlePart(title: "Delivery", doller: "\$", order: 5),
                   Divider(
                     color: Color.fromARGB(255, 230, 227, 227),
                   ),
@@ -114,10 +133,10 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   CartItemMiddlePart(
                       title: "Total",
-                      color: Colors.black,
+                      color: Theme.of(context).primaryColor,
                       doller: "\$",
                       Fsize: 34,
-                      order: context.read<CartCubit>().getTotal()),
+                      order: context.read<CartCubit>().getALlTotal()),
                   SizedBox(
                     height: 10,
                   ),
@@ -138,12 +157,180 @@ class _CartScreenState extends State<CartScreen> {
                     child: ButtonWidget(
                       text: "Add To Cart",
                       ontap: () {
-                        // print();
-                        // print(pizzalist[0].count);
+                       showDialog(
+        context: context,
+        builder: (context) => BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: ListView(
+            scrollDirection: Axis.vertical,
+            children: [
+              Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+                  child: Material(
+                    clipBehavior: Clip.antiAlias,
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      width: width,
+                      height: height * 0.7,
+                      padding: EdgeInsets.only(top: 20),
+                      margin: EdgeInsets.only(bottom: 80),
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Column(
+                        children: [
+                          Text(
+                            "Thank you for",
+                            style: GoogleFonts.ubuntu(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 30),
+                          ),
+                          Text(
+                            "your Order !",
+                            style: GoogleFonts.ubuntu(
+                                color: Colors.red,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 30),
+                          ),
+                          Lottie.asset(
+                            "assets/animation/thank4.json",
+                          ),
+                          Text(
+                            "Your pizza will arrive in",
+                            style: GoogleFonts.ubuntu(
+                              color: Color(0xFF5e5e60),
+                              fontWeight: FontWeight.w600,
+                              fontSize: 20,
+                            ),
+                          ),
+                          TweenAnimationBuilder<Duration>(
+                              duration: Duration(minutes: 30),
+                              tween: Tween(
+                                  begin: Duration(minutes: 30),
+                                  end: Duration.zero),
+                              onEnd: () {
+                                Text("Your order has come at your door step");
+                              },
+                              builder: (BuildContext con, Duration value,
+                                  Widget? child) {
+                                final minutes = value.inMinutes;
+                                final seconds = value.inSeconds % 60;
+                                return Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 5),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Icon(Icons.timer_outlined),
+                                        Text(
+                                          '$minutes:$seconds Mins',
+                                          textAlign: TextAlign.center,
+                                          style: GoogleFonts.ubuntu(
+                                              color: Color(0xFF6b6b6b),
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 15),
+                                        )
+                                      ],
+                                    ));
+                              }),
 
-                        // print(lp.itemsCart.length);
-                        // print("dpme");
-                      },
+                          // Spacer(),
+                          // Text(
+                          //   "Click below to go back",
+                          //   textAlign: TextAlign.center,
+                          //   style: GoogleFonts.ubuntu(
+                          //       color: Color(0xFF6b6b6b).withOpacity(0.5),
+                          //       fontWeight: FontWeight.w600,
+                          //       fontSize: 15),
+                          // ),
+                          // GestureDetector(
+                          //   onTap: () {
+                          //     Navigator.pop(context);
+                          //   },
+                          //   child: Icon(Icons.back_hand),
+                          // )
+                          // SizedBox(height: 12,),
+                          Spacer(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  child: ElevatedButton(
+                                      autofocus: false,
+                                      style: ElevatedButton.styleFrom(
+                                        elevation: 0,
+                                      ),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "Continue",
+                                        style: GoogleFonts.ubuntu(
+                                            color: Color(0xFF727272),
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 15),
+                                      )),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 100,
+                              ),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              MainScreenPage(),
+                                        ));
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Color(0xFFee3964),
+                                    elevation: 0,
+                                  ),
+                                  child: RichText(
+
+                                      // textAlign: TextAlign.end,
+                                      text: TextSpan(children: [
+                                    TextSpan(
+                                      text: "Home ",
+                                      style: GoogleFonts.ubuntu(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 15),
+                                    ),
+                                    // WidgetSpan(child: sp),
+                                    WidgetSpan(
+                                      alignment: PlaceholderAlignment.middle,
+                                      child: Icon(
+                                        Icons.east,
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    )
+                                  ])))
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  )),
+            ],
+          )
+        )
+                       );
+                    
+                      }
                     ),
                   )
                 ],
@@ -159,11 +346,9 @@ class _CartScreenState extends State<CartScreen> {
   Row CartItemMiddlePart({
     required String title,
     required int order,
-  
     String? doller,
     Color? color,
     double? Fsize,
-     
   }) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -183,14 +368,14 @@ class _CartScreenState extends State<CartScreen> {
               TextSpan(
                 text: doller ?? '',
                 style: GoogleFonts.tajawal(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                     fontSize: 20,
                     fontWeight: FontWeight.bold),
               ),
               TextSpan(
                 text: "${order}",
                 style: GoogleFonts.tajawal(
-                    color: Colors.black,
+                    color: Theme.of(context).primaryColor,
                     fontSize: Fsize ?? 27,
                     fontWeight: FontWeight.bold),
               )
@@ -227,7 +412,14 @@ class CartItems extends StatefulWidget {
 }
 
 class _CartItemsState extends State<CartItems> {
-  int get totalItemPrice => widget.price * (widget.count ?? 0);
+  int get totalItemPrice =>
+      widget.price *
+      context
+          .read<CartCubit>()
+          .state
+          .firstWhere((item) => item.title == widget.text)
+          .count;
+
   @override
   Widget build(BuildContext context) {
     // final double real = widget.price / widget.count!.toDouble();
@@ -255,6 +447,7 @@ class _CartItemsState extends State<CartItems> {
               Text(
                 widget.text,
                 style: GoogleFonts.mochiyPopOne(
+                  color: Theme.of(context).primaryColor,
                   fontSize: 18,
                 ),
               ),
@@ -268,6 +461,7 @@ class _CartItemsState extends State<CartItems> {
                   Text(
                     "\$${widget.price}",
                     style: GoogleFonts.mochiyPopOne(
+                      color: Theme.of(context).primaryColor,
                       fontSize: 18,
                     ),
                   ),
@@ -293,6 +487,7 @@ class _CartItemsState extends State<CartItems> {
                             padding: EdgeInsets.all(2),
                             onPressed: () {
                               // print("first price is $totalItemPrice");
+
                               if (widget.count != 0) {
                                 context.read<CartCubit>().decrementItem(
                                     widget.text, widget.oldPrice);
@@ -300,6 +495,7 @@ class _CartItemsState extends State<CartItems> {
                             },
                             icon: Icon(
                               Icons.remove,
+                              color: Theme.of(context).primaryColor,
                               size: 15,
                             ),
                           )),
@@ -307,8 +503,9 @@ class _CartItemsState extends State<CartItems> {
                         width: widget.width * 0.020,
                       ),
                       Text(
-                        "${context.select((CartCubit cubit) => cubit.state.firstWhere((item) => item.title == widget.text).count)}",
+                        "${context.read<CartCubit>().state.firstWhere((item) => item.title == widget.text).count}",
                         style: GoogleFonts.mochiyPopOne(
+                          color: Theme.of(context).primaryColor,
                           fontSize: 13,
                         ),
                       ),
@@ -330,13 +527,15 @@ class _CartItemsState extends State<CartItems> {
                             padding: EdgeInsets.all(2),
                             onPressed: () {
                               context.read<CartCubit>().incrementItem(
-                                  widget.text,
-                                  widget.oldPrice,
-                                  widget.count!.toInt(),
-                                  widget.price);
+                                    widget.text,
+                                    widget.oldPrice,
+                                    widget.count,
+                                    widget.price,
+                                  );
                             },
                             icon: Icon(
                               Icons.add,
+                              color: Theme.of(context).primaryColor,
                               size: 15,
                             ),
                           )),
