@@ -339,9 +339,14 @@ class _MainScreenPageState extends State<MainScreenPage> {
                       "https://upload.wikimedia.org/wikipedia/commons/2/2f/Alesso_profile.png"),
                 ),
               ),
-              DrawerWidget(
-                icon: Icons.home,
-                text: "Home",
+              GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, MainScreenPage.routeName);
+                },
+                child: DrawerWidget(
+                  icon: Icons.home,
+                  text: "Home",
+                ),
               ),
               DrawerWidget(
                 icon: Icons.settings,
