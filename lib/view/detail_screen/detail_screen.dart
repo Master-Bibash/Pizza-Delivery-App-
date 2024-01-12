@@ -8,9 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key, required this.pizzaItem});
+  const DetailScreen({super.key,  this.pizzaItem});
 
-  final PizzaItems pizzaItem;
+  final PizzaItems? pizzaItem;
+    static String routeName = '/detail-screen';
+
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
@@ -78,10 +80,10 @@ class _DetailScreenState extends State<DetailScreen>
                     child: IconButton(onPressed: () {
                       context
                           .read<FavouriteCubit>()
-                          .toggleFavourite(widget.pizzaItem.name);
+                          .toggleFavourite(widget.pizzaItem!.name);
                     }, icon: BlocBuilder<FavouriteCubit, List<String>>(
                             builder: (context, state) {
-                      bool isFavourite = state.contains(widget.pizzaItem.name);
+                      bool isFavourite = state.contains(widget.pizzaItem!.name);
                       return isFavourite
                           ? Icon(
                               Icons.favorite_rounded,
@@ -126,13 +128,13 @@ class _DetailScreenState extends State<DetailScreen>
                                 // width: width / 1.5,
                                 // height: height / 3.3,
                                 child: Hero(
-                                  tag: widget.pizzaItem,
+                                  tag: widget.pizzaItem!,
                                   child: CircleAvatar(
                                     backgroundColor: Theme.of(context)
                                         .scaffoldBackgroundColor,
                                     radius: 150,
                                     backgroundImage: NetworkImage(
-                                      widget.pizzaItem.img,
+                                      widget.pizzaItem!.img,
                                     ),
                                   ),
                                 ),
@@ -143,7 +145,7 @@ class _DetailScreenState extends State<DetailScreen>
                         height: height * 0.02,
                       ),
                       Text(
-                        widget.pizzaItem.name,
+                        widget.pizzaItem!.name,
                         style: GoogleFonts.mochiyPopOne(
                           color: Theme.of(context).primaryColor,
                             fontSize: 22, fontWeight: FontWeight.bold),
@@ -218,7 +220,7 @@ class _DetailScreenState extends State<DetailScreen>
                                         print(price);
                                         count--;
                                         price = price -
-                                            widget.pizzaItem.price.toInt();
+                                            widget.pizzaItem!.price.toInt();
                                       });
                                     } else {
                                       count;
@@ -243,7 +245,7 @@ class _DetailScreenState extends State<DetailScreen>
                                       print(price);
                                       count++;
                                       price = price +
-                                          widget.pizzaItem.price.toInt();
+                                          widget.pizzaItem!.price.toInt();
                                     });
                                   },
                                 ),

@@ -45,8 +45,8 @@ class AddToCartWidget extends StatelessWidget {
             text: "Add To Cart",
             ontap: () {
               useraddedpizza pizza = useraddedpizza(
-                  title: widget.pizzaItem.name,
-                  image: widget.pizzaItem.img,
+                  title: widget.pizzaItem!.name,
+                  image: widget.pizzaItem!.img,
                   count: count,
                   price: price,
                   isFavourite: false);
@@ -56,7 +56,7 @@ class AddToCartWidget extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      CartScreen(oldprice: widget.pizzaItem.price.toInt()),
+                      CartScreen(oldprice: widget.pizzaItem!.price.toInt()),
                 ),
               );
             },

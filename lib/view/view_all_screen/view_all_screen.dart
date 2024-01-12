@@ -4,6 +4,7 @@ import 'package:flutter_application_1/view/main_screen/constant/Lists_pizza.dart
 
 class ViewScreen extends StatelessWidget {
   const ViewScreen({super.key});
+  static String routeName = '/viewall-screen';
 
   @override
   Widget build(BuildContext context) {

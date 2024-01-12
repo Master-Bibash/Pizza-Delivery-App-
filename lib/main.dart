@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/routes/myrouters.dart';
 import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
+import 'package:flutter_application_1/view/cart_screen/cart_screen.dart';
 import 'package:flutter_application_1/view/detail_screen/Cubit/FavouriteCubit.dart';
-import 'package:flutter_application_1/view/main_screen/Cubit/CursorCubit.dart';
+import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
+import 'package:flutter_application_1/view/main_screen/Cursor_Cubit/CursorCubit.dart';
+import 'package:flutter_application_1/view/main_screen/main_screen.dart';
+import 'package:flutter_application_1/view/splashscreen/splashscreen.dart';
+import 'package:flutter_application_1/view/view_all_screen/view_all_screen.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -43,7 +48,15 @@ class MyApp extends StatelessWidget {
               ))),
           debugShowCheckedModeBanner: false,
           onGenerateRoute: MyRoutes.generatedRoutes,
-          initialRoute: '/splash',
+          routes: {
+            SplashScreen.routeName:(context) => const SplashScreen(),
+            MainScreenPage.routeName:(context) => const MainScreenPage(),
+            DetailScreen.routeName :(context) => const DetailScreen(),
+            CartScreen.routeName :(context) => const MainScreenPage(),
+            ViewScreen.routeName :(context) => const ViewScreen(),
+
+          },
+          initialRoute: SplashScreen.routeName,
         ));
   }
 }

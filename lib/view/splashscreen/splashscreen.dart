@@ -2,11 +2,13 @@ import 'dart:async';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_application_1/view/main_screen/main_screen.dart';
 import 'package:flutter_application_1/view/utils/colors_constant.dart';
 import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+  static String routeName = '/spalsh-screen';
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -15,7 +17,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
     initState() {
     Timer(Duration(seconds: 5), () {
-      Navigator.pushNamed(context, '/home');
+      Navigator.pushNamed(context, MainScreenPage.routeName);
     });
   }
   @override

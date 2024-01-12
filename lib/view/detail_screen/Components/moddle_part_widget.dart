@@ -61,7 +61,7 @@ class mIddle_part_widget extends StatelessWidget {
                   width: 46, height: 65, "assets/animation/star.json")),
           TextSpan(children: [
             TextSpan(
-              text: '${widget.pizzaItem.rating} ',
+              text: '${widget.pizzaItem!.rating} ',
               style: GoogleFonts.tajawal(
                   color: Colors.black,
                   fontSize: 18,

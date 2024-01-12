@@ -70,7 +70,7 @@ int incrementItem(String? title, int? oldprice, int? Ccount, int? newprice) {
  int calculateTotalPrice() {
     int total = 0;
     for (useraddedpizza pizza in state) {
-      print("pizza price is ${pizza.price}");
+      // print("pizza price is ${pizza.price}");
       total += pizza.price ; // Multiply by count
     }
     return total;

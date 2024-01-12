@@ -150,12 +150,8 @@ class Button_widget_with_animation_widget extends StatelessWidget {
                               ),
                               ElevatedButton(
                                   onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              MainScreenPage(),
-                                        ));
+                                    Navigator.pushNamed(
+                                        context, MainScreenPage.routeName);
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor: Color(0xFFee3964),

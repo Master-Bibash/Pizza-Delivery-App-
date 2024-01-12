@@ -98,10 +98,11 @@ class _CartItemsState extends State<CartItems> {
                             onPressed: () {
                               // print("first price is $totalItemPrice");
                               // print("price is $totalItemPrice");
-                              if (widget.count != 0) {
+                              if (widget.count! > 0) {
                                 context.read<CartCubit>().decrementItem(
                                     widget.text, widget.oldPrice);
                               }
+                              widget.count;
                             },
                             icon: Icon(
                               Icons.remove,
@@ -138,10 +139,9 @@ class _CartItemsState extends State<CartItems> {
                             padding: EdgeInsets.all(2),
                             onPressed: () {
                               //  print("price is $totalItemPrice");
-                              print("rs is ${widget.oldPrice}"); //old price
-                              print("new price is ${widget.price}");
-                              print("count is ${widget.count}"); //old count
-                          
+                              // print("rs is ${widget.oldPrice}"); //old price
+                              // print("new price is ${widget.price}");
+                              // print("count is ${widget.count}"); //old count
 
                               context.read<CartCubit>().incrementItem(
                                   widget.text,
