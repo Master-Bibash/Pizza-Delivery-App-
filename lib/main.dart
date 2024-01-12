@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/routes/myrouters.dart';
 import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
 import 'package:flutter_application_1/view/cart_screen/cart_screen.dart';
 import 'package:flutter_application_1/view/detail_screen/Cubit/FavouriteCubit.dart';
@@ -47,7 +46,6 @@ class MyApp extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
               ))),
           debugShowCheckedModeBanner: false,
-          onGenerateRoute: MyRoutes.generatedRoutes,
           routes: {
             SplashScreen.routeName:(context) => const SplashScreen(),
             MainScreenPage.routeName:(context) => const MainScreenPage(),
