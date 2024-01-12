@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/Theme/style.dart';
 import 'package:flutter_application_1/routes/myrouters.dart';
+import 'package:flutter_application_1/view/Cubit/PizzaItemCubit.dart';
+import 'package:flutter_application_1/view/cart_screen/cart_screen.dart';
+import 'package:flutter_application_1/view/detail_screen/Cubit/FavouriteCubit.dart';
+import 'package:flutter_application_1/view/detail_screen/detail_screen.dart';
+import 'package:flutter_application_1/view/main_screen/Cursor_Cubit/CursorCubit.dart';
+import 'package:flutter_application_1/view/main_screen/main_screen.dart';
+import 'package:flutter_application_1/view/splashscreen/splashscreen.dart';
+import 'package:flutter_application_1/view/view_all_screen/view_all_screen.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +18,6 @@ void main() {
       .then((_) {
     runApp(MyApp());
   });
-  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,12 +25,38 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: "Pizza App",
-      theme: appTheme(),
-      debugShowCheckedModeBanner: false,
-      onGenerateRoute: MyRoutes.generatedRoutes,
-      initialRoute: '/splash',
-    );
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => CarouseCubit(),
+          ),
+          BlocProvider(
+            create: (context) => CartCubit(),
+          ),
+          BlocProvider(
+            create: (context) => FavouriteCubit(),
+          )
+        ],
+        child: MaterialApp(
+          title: "Pizza App",
+          theme: ThemeData(
+              scaffoldBackgroundColor: Color(0xFF272D3B),
+              primaryColor: Color(0xFFDAE1E8),
+              appBarTheme: AppBarTheme(
+                  iconTheme: IconThemeData(
+                color: Theme.of(context).primaryColor,
+              ))),
+          debugShowCheckedModeBanner: false,
+          onGenerateRoute: MyRoutes.generatedRoutes,
+          routes: {
+            SplashScreen.routeName:(context) => const SplashScreen(),
+            MainScreenPage.routeName:(context) => const MainScreenPage(),
+            DetailScreen.routeName :(context) => const DetailScreen(),
+            CartScreen.routeName :(context) => const MainScreenPage(),
+            ViewScreen.routeName :(context) => const ViewScreen(),
+
+          },
+          initialRoute: SplashScreen.routeName,
+        ));
   }
 }
