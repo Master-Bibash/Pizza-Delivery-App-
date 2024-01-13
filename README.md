@@ -6,6 +6,7 @@ A new Flutter project.
 
 
 <img src="https://raw.githubusercontent.com/Master-Bibash/Pizza-Delivery-App-/main/screen-shots/first.png" width="400" height="600" />
+<img src="https://raw.githubusercontent.com/Master-Bibash/Pizza-Delivery-App-/main/screen-shots/second.png" width="400" height="600" />
 
 A few resources to get you started if this is your first Flutter project:
 
